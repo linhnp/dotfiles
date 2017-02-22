@@ -51,7 +51,7 @@ echo "Install Plug"
 if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
 	mkdir -p $DOTFILE_HOME/nvim/bundle
 fi
-nvim +Pluginstall +qall
+nvim +PlugInstall +qall
 
 #
 ########################
