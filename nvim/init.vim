@@ -1,10 +1,10 @@
-set t_ut=
+"set t_ut=
 
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 
 if &compatible
-  set nocompatible
+	set nocompatible
 endif
 set runtimepath+=~/.config/nvim/bundle/vim-plug
 
@@ -15,13 +15,16 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Initialize plugin system
 call plug#end()
 
-filetype plugin indent on
-syntax enable
- 
+" Plug said it already runs these command
+" filetype plugin indent on
+" syntax enable
+
 " Brief " Automatic reloading of .vimrc
 autocm! bufwritepost ~/.config/nvim/init.vim source %
 
@@ -34,6 +37,9 @@ imap jj <Esc>
 " mapping register to clipboard
 " set clipboard=unnamedplus
 set clipboard=unnamed
+
+" mapping F7 to format ident
+map <F7> mzgg=G
 
 " rebind <Leader> key
 let mapleader = ","
@@ -100,20 +106,22 @@ endif
 if has("autocmd")
 	" Put these in an autocmd group, so that we can delete them easily.
 	augroup vimrcEx
-	au!
+		au!
 
-	" For all text files set 'textwidth' to 78 characters.
-	autocmd FileType text setlocal textwidth=78
+		" For all text files set 'textwidth' to 78 characters.
+		autocmd FileType text setlocal textwidth=78
 
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid or when inside an event handler
-	" (happens when dropping a file on gvim).
-	autocmd BufReadPost *
-	\ if line("'\"") >= 1 && line("'\"") <= line("$") |
-	\   exe "normal! g`\"" |
-	\ endif
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid or when inside an event handler
+		" (happens when dropping a file on gvim).
+		autocmd BufReadPost *
+					\ if line("'\"") >= 1 && line("'\"") <= line("$") |
+					\   exe "normal! g`\"" |
+					\ endif
 
 	augroup END
+
+	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
@@ -121,7 +129,7 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
 	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		\ | wincmd p | diffthis
+				\ | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
@@ -147,9 +155,9 @@ function! OmniPopup(action)
 	if pumvisible()
 		if a:action == 'j'
 			return "\<C-N>"
-       	elseif a:action == 'k'
+		elseif a:action == 'k'
 			return "\<C-P>"
-       	endif
+		endif
 	endif
 	return a:action
 endfunction
@@ -195,67 +203,6 @@ set autochdir "auto set current file's folder current folder
 
 " status line
 set laststatus=2 "set statusline always show
-if has("statusline")
-	" Set color, see more here:
-	" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-	function! InsertStatuslineColor(mode)
-		if a:mode == 'i'
-		hi statusline guibg=Grey ctermfg=7 guifg=Cyan ctermbg=27
-		elseif a:mode == 'r'
-		hi statusline guibg=Grey ctermfg=7 guifg=Red ctermbg=28
-		else
-		hi statusline guibg=Grey ctermfg=7 guifg=White ctermbg=28
-		endif
-	endfunction  
-	
-	let g:currentmode={
-		\ 'n'  : 'NORMAL ',
-		\ 'no' : 'N·Operator Pending ',
-		\ 'v'  : 'VISUAL ',
-		\ 'V'  : 'V·Line ',
-		\ '^V' : 'V·Block ',
-		\ 's'  : 'Select ',
-		\ 'S'  : 'S·Line ',
-		\ '^S' : 'S·Block ',
-		\ 'i'  : 'Insert ',
-		\ 'R'  : 'Replace ',
-		\ 'Rv' : 'V·Replace ',
-		\ 'c'  : 'Command ',
-		\ 'cv' : 'Vim Ex ',
-		\ 'ce' : 'Ex ',
-		\ 'r'  : 'Prompt ',
-		\ 'rm' : 'More ',
-		\ 'r?' : 'Confirm ',
-		\ '!'  : 'Shell ',
-	    \ 't'  : 'Terminal '
-		\}   
-
-	"au InsertEnter * call InsertStatuslineColor(v:insertmode)
-	"au InsertLeave * hi statusline guibg=Grey ctermfg=7 guifg=Green	ctermbg=23
-
-	" default the statusline to green when entering Vim
-	" hi statusline guibg=Grey ctermfg=7 guifg=Green ctermbg=23
-
-	" Formats the statusline
-	set statusline=%0*\ %{toupper(g:currentmode[mode()])}\| "show current mode
-	" show current git brach
-	if !empty(glob("~/.vim/bundle/vim-fugitive/plugin/fugitive.vim"))
-		set statusline+=%(\ *%{fugitive#head()}\ \|%)
-	endif
-	set statusline+=\ %F       " file path
-	set statusline+=%h      "help file flag
-	set statusline+=%m      "modified flag
-	set statusline+=%r      "read only flag
-
-	set statusline+=\ %=                        " align left
-	set statusline+=%{strlen(&fenc)?&fenc:'none'}\ \| "file encoding
-	set statusline+=\ %{&ff}\ \| "file format
-	set statusline+=%(\ %y\ \|%)      "filetype
-	set statusline+=\ %l/%L[%p%%]\ \|           " line X of Y [percent of file]
-	set statusline+=\ %c\ \|                " current column
-	set statusline+=\ %n                    " Buffer number
-endif
-set noshowmode
 
 "quick find and replace
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -267,7 +214,7 @@ vnoremap <c-f> y<ESC>/<c-r>"<CR>
 
 " php-namspaces
 function! IPhpInsertUse()
-call PhpInsertUse()
+	call PhpInsertUse()
 	call feedkeys('a',  'n')
 endfunction
 autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
@@ -288,14 +235,14 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 " The Silver Searcher
 if executable('ag')
-"   " Use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-"
-"       " Use ag in CtrlP for listing files. Lightning fast and respects
-"       .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+	"   " Use ag over grep
+	set grepprg=ag\ --nogroup\ --nocolor
+	"
+	"       " Use ag in CtrlP for listing files. Lightning fast and respects
+	"       .gitignore
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-  " ag is fast enough that CtrlP doesn't need to cache
+	" ag is fast enough that CtrlP doesn't need to cache
 	let g:ctrlp_use_caching = 0
 endif
 
@@ -314,13 +261,13 @@ silent! colorscheme NeoSolarized
 
 set background=dark
 
-" default value is "normal", Setting this option to "high" or "low" does use the 
-" same Solarized palette but simply shifts some values up or down in order to 
+" default value is "normal", Setting this option to "high" or "low" does use the
+" same Solarized palette but simply shifts some values up or down in order to
 " expand or compress the tonal range displayed.
 let g:neosolarized_contrast = "normal"
 
-" Special characters such as trailing whitespace, tabs, newlines, when displayed 
-" using ":set list" can be set to one of three levels depending on your needs. 
+" Special characters such as trailing whitespace, tabs, newlines, when displayed
+" using ":set list" can be set to one of three levels depending on your needs.
 " Default value is "normal". Provide "high" and "low" options.
 let g:neosolarized_visibility = "normal"
 
@@ -328,8 +275,13 @@ let g:neosolarized_visibility = "normal"
 " style more, set this value to 0.
 let g:neosolarized_vertSplitBgTrans = 1
 
-" If you wish to enable/disable NeoSolarized from displaying bold, underlined or italicized 
-" typefaces, simply assign 1 or 0 to the appropriate variable. Default values:  
+" If you wish to enable/disable NeoSolarized from displaying bold, underlined or italicized
+" typefaces, simply assign 1 or 0 to the appropriate variable. Default values:
 let g:neosolarized_bold = 1
 let g:neosolarized_underline = 1
 let g:neosolarized_italic = 0
+
+" set vim-airline to use powerline font
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='bubblegum'

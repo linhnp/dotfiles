@@ -53,6 +53,13 @@ if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
 fi
 nvim +PlugInstall +qall
 
+########################
+# Install powerline font
+echo "Install powerline fonr"
+cd /tmp
+git clone https://github.com/powerline/fonts.git
+./fonts/install.sh
+
 #
 ########################
 #
