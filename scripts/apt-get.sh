@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install neovim tmux zsh git ubuntu-restricted-extras
+sudo apt-get install neovim tmux zsh git ubuntu-restricted-extras silversearcher-ag
 
 #
 # install theme and icon

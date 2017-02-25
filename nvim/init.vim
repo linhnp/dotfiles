@@ -17,6 +17,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'mileszs/ack.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -40,6 +41,9 @@ set clipboard=unnamed
 
 " mapping F7 to format ident
 map <F7> mzgg=G
+
+" mapping F6 to nonumber
+nnoremap <F6> :set nonumber!<CR>
 
 " rebind <Leader> key
 let mapleader = ","
@@ -235,11 +239,11 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 " The Silver Searcher
 if executable('ag')
-	"   " Use ag over grep
-	set grepprg=ag\ --nogroup\ --nocolor
-	"
-	"       " Use ag in CtrlP for listing files. Lightning fast and respects
-	"       .gitignore
+	" use Ag with [ack.vim]
+	let g:ackprg = 'ag --nogroup --nocolor --column'
+
+	" Use ag in CtrlP for listing files. Lightning fast and respects
+	" .gitignore
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 	" ag is fast enough that CtrlP doesn't need to cache
@@ -247,8 +251,8 @@ if executable('ag')
 endif
 
 " ag search
-let g:ag_working_path_mode="r"
-nnoremap <Leader>\ :Ag<SPACE>
+" let g:ag_working_path_mode="r"
+" nnoremap <Leader>\ :Ag<SPACE>
 "vnoremap <c-F> y<ESC>:Ag<SPACE><c-r>"<CR>
 
 " set vim tab only display file name
@@ -285,3 +289,4 @@ let g:neosolarized_italic = 0
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='bubblegum'
+let g:solarized_termcolors=256

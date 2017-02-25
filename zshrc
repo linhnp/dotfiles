@@ -27,7 +27,7 @@ TRAPALRM() {
 #export LS_COLORS
 #zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-#export TERM=screen-256color-bce
+export TERM=screen-256color
 
 # alias
 
@@ -39,4 +39,16 @@ fi
 
 alias ls='ls $LS_OPTION'
 
-alias vim=nvim
+alias vim="NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim"
+
+alias sshkey="cat ~/.ssh/id_rsa.pub"
+
+alias cls="clear"
+
+if `which ag > /dev/null`; then
+	alias grep="ag"
+fi
+
+if [ -f ~/.zsh_alias ]; then
+	source ~/.zsh_alias
+fi
