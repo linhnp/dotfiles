@@ -3,9 +3,6 @@
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 
-if &compatible
-	set nocompatible
-endif
 set runtimepath+=~/.config/nvim/bundle/vim-plug
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
@@ -37,7 +34,7 @@ imap jj <Esc>
 
 " mapping register to clipboard
 " set clipboard=unnamedplus
-set clipboard=unnamed
+" set clipboard=unnamed
 
 " mapping F7 to format ident
 map <F7> mzgg=G
@@ -74,13 +71,8 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -95,13 +87,6 @@ inoremap <C-U> <C-G>u<C-U>
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
 	set mouse=r
-endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-	syntax on
-	set hlsearch
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -136,17 +121,9 @@ if !exists(":DiffOrig")
 				\ | wincmd p | diffthis
 endif
 
-if has('langmap') && exists('+langnoremap')
-	" Prevent that the langmap option applies to characters that result from a
-	" mapping.  If unset (default), this may break plugins (but it's backward
-	" compatible).
-	set langnoremap
-endif
-
 " set tab width
 set tabstop=4
 set shiftwidth=4
-set smarttab
 
 set number " display line number
 set t_Co=256 " set to use 256 color
@@ -193,7 +170,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "  endif
 " endfunction
 
-" map <Leader>t :call ToggleVExplorer()<CR>
+" map TLeader>t :call ToggleVExplorer()<CR>
 
 " for nerdtree
 map <Leader>t :NERDTreeToggle<CR>
@@ -204,9 +181,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeShowBookmarks=1
 
 set autochdir "auto set current file's folder current folder
-
-" status line
-set laststatus=2 "set statusline always show
 
 "quick find and replace
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -223,9 +197,6 @@ function! IPhpInsertUse()
 endfunction
 autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
 autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
-
-" tags
-set tags=./tags;/
 
 " ctrlp.vim
 let g:ctrlp_map = '<c-p>'
@@ -252,7 +223,7 @@ endif
 
 " ag search
 " let g:ag_working_path_mode="r"
-" nnoremap <Leader>\ :Ag<SPACE>
+noremap <Leader>\ :Ack<SPACE>
 "vnoremap <c-F> y<ESC>:Ag<SPACE><c-r>"<CR>
 
 " set vim tab only display file name
@@ -290,3 +261,13 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='bubblegum'
 let g:solarized_termcolors=256
+
+" Exit from Terminal mode
+tnoremap <Leader>T <C-\><C-n>
+" Open terminal in vertical split
+map <C-t> :vsp term://
+" Open terminal in hsplit
+map <C-s> :sp term://
+
+" CLose quickfix
+noremap <Leader>Q :ccl<CR>

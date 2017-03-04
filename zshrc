@@ -52,3 +52,10 @@ fi
 if [ -f ~/.zsh_alias ]; then
 	source ~/.zsh_alias
 fi
+
+# git alias
+alias gstatus='git status'
+alias gadd='git add '
+alias gcommit='git commit -m '
+alias gpush='git push '
+alias 
