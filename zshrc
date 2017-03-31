@@ -54,8 +54,10 @@ if [ -f ~/.zsh_alias ]; then
 fi
 
 # git alias
+alias ginit='git init && echo .DS_Store > .gitignore'
 alias gstatus='git status'
 alias gadd='git add '
 alias gcommit='git commit -m '
 alias gpush='git push '
-alias 
+alias gpull='git pull '
+alias fastgit='git add . && git commit && git push origin master'

@@ -24,7 +24,7 @@ call plug#end()
 " syntax enable
 
 " Brief " Automatic reloading of .vimrc
-autocm! bufwritepost ~/.config/nvim/init.vim source %
+autocm! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
 " text will not be automatically indented when pasting
 set pastetoggle=<F2>
