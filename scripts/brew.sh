@@ -30,6 +30,8 @@ brew install tmux
 
 brew install the_silver_searcher
 
+brew install ctags
+
 brew cask install gimp
 
 brew cleanup

@@ -2,7 +2,6 @@
 
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
-
 set runtimepath+=~/.config/nvim/bundle/vim-plug
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
@@ -14,7 +13,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-surround'
+" Plug 'mileszs/ack.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -23,110 +23,57 @@ call plug#end()
 " filetype plugin indent on
 " syntax enable
 
-" Brief " Automatic reloading of .vimrc
-autocm! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+"
+" Option
+"
 
-" text will not be automatically indented when pasting
-set pastetoggle=<F2>
-
-" map jj to <ESC>
-imap jj <Esc>
-
-" mapping register to clipboard
-" set clipboard=unnamedplus
-" set clipboard=unnamed
-
-" mapping F7 to format ident
-map <F7> mzgg=G
-
-" mapping F6 to nonumber
-nnoremap <F6> :set nonumber!<CR>
-
-" rebind <Leader> key
-let mapleader = ","
-
-" Remove hightlight of last search
-noremap <C-n> :nohl<CR>
-vnoremap <C-n> :nohl<CR>
-inoremap <C-n> :nohl<CR>
-
-" Quick save command
-noremap <Leader>s :update<CR>
-
-" Quick quit command
-noremap <Leader>q :quit<CR>
-
-"moving code block
-vnoremap < <gv
-vnoremap > >gv
-
-" moving between split
-map <Leader>l <C-w>l
-map <Leader>h <C-w>h
-map <Leader>j <C-w>j
-map <Leader>k <C-w>k
-
-" set no backup file
-set nobackup
+set tabstop=4					" set tab width
+set shiftwidth=4
+set nobackup					" set no backup file
 set nowritebackup
-set noswapfile
+set noswapfile					" set no swap file
+set pastetoggle=<F2>			" text will not be automatically indented when pasting
+set ruler						" show the cursor position all the time
+set showcmd						" display incomplete commands
+set rnu 						" display line number
+set t_Co=256 					" set to use 256 color
+set autochdir 					" auto set current file's folder current folder
+set guitablabel=%t				" set vim tab only display file name
+tnoremap <Leader>T <C-\><C-n>	" Exit from Terminal mode
+map <C-t> :vsp term://			" Open terminal in vertical split
+map <C-s> :sp term://			" Open terminal in hsplit
+noremap <Leader>Q :ccl<CR>		" CLose quickfix
 
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+" set clipboard=unnamedplus		" mapping register to clipboard
+" set clipboard=unnamed
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
 	set mouse=r
 endif
 
-" Only do this part when compiled with support for autocommands.
-" auto command: auto execute when reading or writing a file
-" Refer: http://learnvimscriptthehardway.stevelosh.com/chapters/12.html
-if has("autocmd")
-	" Put these in an autocmd group, so that we can delete them easily.
-	augroup vimrcEx
-		au!
+"
+" mapping
+"
 
-		" For all text files set 'textwidth' to 78 characters.
-		autocmd FileType text setlocal textwidth=78
-
-		" When editing a file, always jump to the last known cursor position.
-		" Don't do it when the position is invalid or when inside an event handler
-		" (happens when dropping a file on gvim).
-		autocmd BufReadPost *
-					\ if line("'\"") >= 1 && line("'\"") <= line("$") |
-					\   exe "normal! g`\"" |
-					\ endif
-
-	augroup END
-
-	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-endif " has("autocmd")
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-				\ | wincmd p | diffthis
-endif
-
-" set tab width
-set tabstop=4
-set shiftwidth=4
-
-set number " display line number
-set t_Co=256 " set to use 256 color
+let mapleader = ","				" rebind <Leader> key
+imap jj <Esc>					" map jj to <ESC>
+map <F7> mzgg=G					" mapping F7 to format ident
+noremap <C-n> :nohl<CR>			" Remove hightlight of last search
+noremap <Leader>s :update<CR>	" Quick save command
+noremap <Leader>q :quit<CR>		" Quick quit command
+vnoremap < <gv					" moving code block
+vnoremap > >gv					" moving code block
+map <Leader>l <C-w>l			" moving between split
+map <Leader>h <C-w>h
+map <Leader>j <C-w>j
+map <Leader>k <C-w>k
+map Q gq						" Don't use Ex mode, use Q for formatting
+inoremap <C-U> <C-G>u<C-U>		" Use CTRL-G u to first break undo, so that you can undo CTRL-U after inserting a line break.
+nnoremap <F6> :set nornu!<CR>	" mapping F6 to nonumber
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>	" Quick replace
+vnoremap <c-f> y<ESC>/<c-r>"<CR>					" Quick find
 
 " Better navigating through omnicomplete option list
 " See
@@ -147,71 +94,67 @@ endfunction
 inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
 inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
+
+" Only do this part when compiled with support for autocommands.
+" auto command: auto execute when reading or writing a file
+" Refer: http://learnvimscriptthehardway.stevelosh.com/chapters/12.html
+if has("autocmd")
+	" Put these in an autocmd group, so that we can delete them easily.
+	augroup vimrcEx
+		au!
+
+		" For all text files set 'textwidth' to 78 characters.
+		autocmd FileType text setlocal textwidth=78
+
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid or when inside an event handler
+		" (happens when dropping a file on gvim).
+		autocmd BufReadPost *
+					\ if line("'\"") >= 1 && line("'\"") <= line("$") |
+					\   exe "normal! g`\"" |
+					\ endif
+
+		autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+		" Brief " Automatic reloading of .vimrc
+		autocm! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+
+	augroup END
+endif " has("autocmd")
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+				\ | wincmd p | diffthis
+endif
+
+
 " do not show preview, when popup close, close all preview
 set completeopt-=preview
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" open/close folder tree
-" function! ToggleVExplorer()
-"  if exists("t:expl_buf_num")
-"      let expl_win_num = bufwinnr(t:expl_buf_num)
-"      if expl_win_num != -1
-"          " let cur_win_nr = winnr()
-"          exec expl_win_num . 'wincmd w'
-"          close
-"          " exec cur_win_nr . 'wincmd w'
-"	  endif
-"	  unlet t:expl_buf_num
-"  else
-"      exec '1wincmd w'
-"      Vexplore
-"      let t:expl_buf_num = bufnr("%")
-"  endif
-" endfunction
+"
+" Plugins Setting
+"
 
-" map TLeader>t :call ToggleVExplorer()<CR>
-
-" for nerdtree
-map <Leader>t :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-
+" Nerdtree
+map <Leader>t :NERDTreeToggle<CR>			" Map to ,t
+let NERDTreeShowHidden=1					" Set show hidden file
+let NERDTreeShowBookmarks=1					" Enable nerdtree bookmarks
 " close vim when NerdTree is the only window left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeShowBookmarks=1
-
-set autochdir "auto set current file's folder current folder
-
-"quick find and replace
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
-vnoremap <c-f> y<ESC>/<c-r>"<CR>
-
-" supertab
-" let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
-" let g:SuperTabDefaultCompletionType = "context"
-
-" php-namspaces
-function! IPhpInsertUse()
-	call PhpInsertUse()
-	call feedkeys('a',  'n')
-endfunction
-autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
 
 " ctrlp.vim
-let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = '<c-p>'					" quick open ctrlp
 let g:ctrlp_cmd = 'CtrlP'
-
-" ctrlp-funky
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
 
 " The Silver Searcher
 if executable('ag')
 	" use Ag with [ack.vim]
-	let g:ackprg = 'ag --nogroup --nocolor --column'
+	" let g:ackprg = 'ag --nogroup --nocolor --column'
 
 	" Use ag in CtrlP for listing files. Lightning fast and respects
 	" .gitignore
@@ -222,18 +165,11 @@ if executable('ag')
 endif
 
 " ag search
-" let g:ag_working_path_mode="r"
-noremap <Leader>\ :Ack<SPACE>
-"vnoremap <c-F> y<ESC>:Ag<SPACE><c-r>"<CR>
-
-" set vim tab only display file name
-set guitablabel=%t
+" noremap <Leader>\ :Ack<SPACE>
 
 " NeoSolarized
 set termguicolors
-
 silent! colorscheme NeoSolarized
-
 set background=dark
 
 " default value is "normal", Setting this option to "high" or "low" does use the
@@ -262,12 +198,22 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='bubblegum'
 let g:solarized_termcolors=256
 
-" Exit from Terminal mode
-tnoremap <Leader>T <C-\><C-n>
-" Open terminal in vertical split
-map <C-t> :vsp term://
-" Open terminal in hsplit
-map <C-s> :sp term://
+" open/close folder tree
+" function! ToggleVExplorer()
+"  if exists("t:expl_buf_num")
+"      let expl_win_num = bufwinnr(t:expl_buf_num)
+"      if expl_win_num != -1
+"          " let cur_win_nr = winnr()
+"          exec expl_win_num . 'wincmd w'
+"          close
+"          " exec cur_win_nr . 'wincmd w'
+"	  endif
+"	  unlet t:expl_buf_num
+"  else
+"      exec '1wincmd w'
+"      Vexplore
+"      let t:expl_buf_num = bufnr("%")
+"  endif
+" endfunction
 
-" CLose quickfix
-noremap <Leader>Q :ccl<CR>
+" map TLeader>t :call ToggleVExplorer()<CR>
