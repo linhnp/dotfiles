@@ -17,7 +17,7 @@ sudo apt-get install neovim tmux zsh git ubuntu-restricted-extras silversearcher
 #
 
 echo set zsh default shell
-chsh -s /bin/zsh linhnp
+chsh -s $(which zsh)
 
 #
 # the silver search

@@ -72,8 +72,8 @@ map <Leader>k <C-w>k
 map Q gq						" Don't use Ex mode, use Q for formatting
 inoremap <C-U> <C-G>u<C-U>		" Use CTRL-G u to first break undo, so that you can undo CTRL-U after inserting a line break.
 nnoremap <F6> :set nornu!<CR>	" mapping F6 to nonumber
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>	" Quick replace
-vnoremap <c-f> y<ESC>/<c-r>"<CR>					" Quick find
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <c-f> y<ESC>/<c-r>"<CR>
 
 " Better navigating through omnicomplete option list
 " See

@@ -8,7 +8,7 @@ if [ ! -d "$DOTFILE_HOME" ]; then
 		mkdir "$HOME/workspace"
 	fi
 	cd "$HOME/workspace"
-    git clone --recursive https://bitbucket.org/linhnp/dotfiles.git
+    git clone --recursive https://github.com/linhnp/dotfiles.git
 else
     echo "Updating"
     cd "$DOTFILE_HOME"
