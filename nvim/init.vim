@@ -197,6 +197,20 @@ let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='bubblegum'
 let g:solarized_termcolors=256
+let g:airline_mode_map = {
+        \ '__' : '──────',
+        \ 'n'  : 'N',
+        \ 'i'  : 'I',
+        \ 'R'  : 'RPlace',
+        \ 'v'  : 'V',
+        \ 'V'  : 'V-Line',
+        \ '^V' : 'V-Bloc',
+        \ 'c'  : 'Commnd',
+        \ 's'  : 'Select',
+        \ 'S'  : 'S-Line',
+        \ '^S' : 'S-Bloc',
+        \ 't'  : 'Termnl',
+        \ }
 
 " open/close folder tree
 " function! ToggleVExplorer()
