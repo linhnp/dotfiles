@@ -53,6 +53,10 @@ if [ -f ~/.zsh_alias ]; then
 	source ~/.zsh_alias
 fi
 
+if [ -f ~/.zprofile ]; then
+	source ~/.zprofile
+fi
+
 # git alias
 alias ginit='git init && echo .DS_Store > .gitignore'
 alias gstatus='git status'
