@@ -156,5 +156,7 @@ bindsym $mod+r mode "resize"
 #		position top
 #}
 
+bindsym $mod+l exec --no-startup-id i3lock
+
 new_window 1pixel
 exec_always --no-startup-id ~/.config/polybar/launch.sh
