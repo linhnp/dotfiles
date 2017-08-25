@@ -157,6 +157,7 @@ bindsym $mod+r mode "resize"
 #}
 
 bindsym $mod+Ctrl+l exec --no-startup-id i3lock
+bindsym $mod+Ctrl+p exec "scrot -s -e 'mv $f ~/Downloads'"
 
 new_window 1pixel
 exec_always --no-startup-id ~/.config/polybar/launch.sh
