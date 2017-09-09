@@ -7,7 +7,6 @@ set runtimepath+=~/.config/nvim/bundle/vim-plug
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/nvim/bundle')
 
-Plug 'iCyMind/NeoSolarized'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -40,14 +39,13 @@ set rnu 						" display line number
 set t_Co=256 					" set to use 256 color
 set autochdir 					" auto set current file's folder current folder
 set guitablabel=%t				" set vim tab only display file name
-tnoremap <Leader>T <C-\><C-n>	" Exit from Terminal mode
-map <C-t> :vsp term://			" Open terminal in vertical split
-map <C-s> :sp term://			" Open terminal in hsplit
+"map <C-t> :vsp term://			" Open terminal in vertical split
+"map <C-s> :sp term://			" Open terminal in hsplit
 noremap <Leader>Q :ccl<CR>		" CLose quickfix
-set autoindent
+set autoindent nosmartindent
 set expandtab
-
-
+set wildignore=*.pyc
+let g:netrw_list_hide= '.*\.pyc$'
 
 " set clipboard=unnamedplus		" mapping register to clipboard
 " set clipboard=unnamed
@@ -78,6 +76,7 @@ inoremap <C-U> <C-G>u<C-U>		" Use CTRL-G u to first break undo, so that you can 
 nnoremap <F6> :set nornu!<CR>	" mapping F6 to nonumber
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap <c-f> y<ESC>/<c-r>"<CR>
+" tnoremap <Leader>T <C-\><C-n>	" Exit from Terminal mode
 
 " Better navigating through omnicomplete option list
 " See
