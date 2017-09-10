@@ -153,6 +153,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " ctrlp.vim
 let g:ctrlp_map = '<c-p>'					" quick open ctrlp
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
 
 " The Silver Searcher
 if executable('ag')
