@@ -58,7 +58,7 @@ if [ -f ~/.zprofile ]; then
 fi
 
 # git alias
-alias ginit='git init && echo .DS_Store > .gitignore'
+alias ginit='git init;cp $HOME/workspace/sys_script/gitignore .gitignore'
 alias gstatus='git status'
 alias gadd='git add '
 alias gcommit='git commit -m '
@@ -66,3 +66,9 @@ alias gpush='git push '
 alias gpull='git pull '
 alias fastgit='git add . && git commit && git push origin master'
 alias whatismyip='wget -qO- ipinfo.io/ip'
+alias projects='cd $HOME/workspace/projects'
+alias env_source='source env/bin/activate'
+alias env_create='virtualenv env'
+alias to_requirement='pip freeze > requirements.txt'
+alias tutorial='cd $HOME/workspace/projects/tutorial'
+alias personal='cd $HOME/workspace/projects/personal'

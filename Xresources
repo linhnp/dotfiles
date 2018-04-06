@@ -75,3 +75,11 @@ URxvt.scrollBar: false
 *color13:                 S_violet
 *color14:                 S_base1
 *color15: S_base3
+
+! tab
+!URxvt.perl-ext-common: ...,tabbed,...
+!
+!URxvt.tabbed.tabbar-fg: 2
+!URxvt.tabbed.tabbar-bg: 0
+!URxvt.tabbed.tab-fg: 3
+!URxvt.tabbed.tab-bg: 0

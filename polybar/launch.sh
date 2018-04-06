@@ -7,4 +7,4 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 # Launch HDMI
 polybar HDMI &
-polybar VGA &
+#polybar VGA &
