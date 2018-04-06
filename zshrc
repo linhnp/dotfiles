@@ -58,7 +58,7 @@ if [ -f ~/.zprofile ]; then
 fi
 
 # git alias
-alias ginit='git init;cp $HOME/workspace/sys_script/gitignore .gitignore'
+alias ginit='git init;cp $HOME/workspace/dotfiles/gitignore .gitignore'
 alias gstatus='git status'
 alias gadd='git add '
 alias gcommit='git commit -m '
