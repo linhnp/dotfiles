@@ -186,5 +186,30 @@ fabric.properties
 /frontend/node_modules/
 /frontend/build/
 
+# Java #
+*.jar
+*.war
+*.class
+
+# Editor Files #
+################
+*~
+*.swp
+
+######################
+# Gradle
+######################
+.gradle/
+.m2
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
 .DS_Store
 .vagrant
