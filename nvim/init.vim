@@ -13,7 +13,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
-" Plug 'mileszs/ack.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'mileszs/ack.vim'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Initialize plugin system
 call plug#end()
@@ -36,6 +39,7 @@ set pastetoggle=<F2>			" text will not be automatically indented when pasting
 set ruler						" show the cursor position all the time
 set showcmd						" display incomplete commands
 set rnu 						" display line number
+set nu
 set t_Co=256 					" set to use 256 color
 set autochdir 					" auto set current file's folder current folder
 set guitablabel=%t				" set vim tab only display file name
@@ -45,6 +49,7 @@ noremap <Leader>Q :ccl<CR>		" CLose quickfix
 set autoindent nosmartindent
 set expandtab
 set wildignore=*.pyc
+set ff=unix
 let g:netrw_list_hide= '.*\.pyc$'
 
 " set clipboard=unnamedplus		" mapping register to clipboard
@@ -158,7 +163,9 @@ let g:ctrlp_working_path_mode = 'ra'
 " The Silver Searcher
 if executable('ag')
 	" use Ag with [ack.vim]
-	" let g:ackprg = 'ag --nogroup --nocolor --column'
+    let g:ackprg = 'ag --vimgrep --smart-case'
+    cnoreabbrev Ack Ack!
+    nnoremap <Leader>a :Ack!<Space>
 
 	" Use ag in CtrlP for listing files. Lightning fast and respects
 	" .gitignore
