@@ -20,7 +20,7 @@ brew install zsh-completions
 
 brew install wget
 
-brew install neovim/neovim/neovim
+brew install neovim
 
 brew install git
 

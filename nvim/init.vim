@@ -251,3 +251,11 @@ let g:airline_mode_map = {
 " endfunction
 
 " map TLeader>t :call ToggleVExplorer()<CR>
+
+if has("unix")
+  let s:uname = system("uname")
+  if s:uname == "Darwin\n"
+    " Do Mac stuff here
+    let g:python3_host_prog = '/usr/local/bin/python3'
+  endif
+endif
