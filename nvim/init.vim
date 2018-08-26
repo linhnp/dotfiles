@@ -67,6 +67,7 @@ endif
 let mapleader = ","				" rebind <Leader> key
 imap jj <Esc>					" map jj to <ESC>
 map <F7> mzgg=G					" mapping F7 to format ident
+map <F8> gggqG					" mapping F7 to format ident
 noremap <C-n> :nohl<CR>			" Remove hightlight of last search
 noremap <Leader>s :update<CR>	" Quick save command
 noremap <Leader>q :quit<CR>		" Quick quit command
@@ -126,6 +127,8 @@ if has("autocmd")
 
 		" Brief " Automatic reloading of .vimrc
 		autocm! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+
+        au FileType python setlocal formatprg=autopep8\ -
 
 	augroup END
 endif " has("autocmd")

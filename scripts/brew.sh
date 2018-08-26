@@ -34,4 +34,8 @@ brew install ctags
 
 brew cask install gimp
 
+brew install python3
+
+pip3 install virtualenv neovim autopep8
+
 brew cleanup
