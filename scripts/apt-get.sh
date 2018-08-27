@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install neovim tmux zsh git ubuntu-restricted-extras silversearcher-ag gimp curl ibus-unikey ctags cmake python-dev python3-dev python-pip
+sudo apt-get install neovim tmux zsh git ubuntu-restricted-extras silversearcher-ag gimp curl ibus-unikey ctags cmake python-dev python3-dev python-autopep8
 
 #
 # install theme and icon
