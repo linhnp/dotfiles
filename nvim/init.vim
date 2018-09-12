@@ -2,7 +2,8 @@
 
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
-set runtimepath+=~/.config/nvim/bundle/vim-plug
+let $VHOME = $HOME."/.config/nvim"
+set runtimepath+=$VHOME."/bundle/vim-plug"
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/nvim/bundle')
@@ -129,6 +130,8 @@ if has("autocmd")
 		autocm! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
         au FileType python setlocal formatprg=autopep8\ -
+
+        au BufNewFile * :silent! exec ":0r ".$VHOME."/templates/".&ft
 
 	augroup END
 endif " has("autocmd")
@@ -262,3 +265,4 @@ if has("unix")
     let g:python3_host_prog = '/usr/local/bin/python3'
   endif
 endif
+
