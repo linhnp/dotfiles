@@ -1,0 +1,9 @@
+[merge]
+	tool = vimdiff
+[mergetool]
+	prompt = false
+	keepBackup = false
+[user]
+	name = linhnp
+[core]
+	editor = nvim
