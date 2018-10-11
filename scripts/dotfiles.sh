@@ -21,7 +21,7 @@ fi
 #
 # Setting file list
 #
-file_list=(zshrc tmux.conf)
+file_list=(zshrc tmux.conf gitconfig)
 
 #
 # Start
