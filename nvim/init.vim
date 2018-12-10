@@ -18,6 +18,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tacahiroy/ctrlp-funky'
 
 " Initialize plugin system
 call plug#end()
@@ -266,3 +267,7 @@ if has("unix")
   endif
 endif
 
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
