@@ -59,7 +59,7 @@ fi
 
 # git alias
 alias ginit='git init;cp $HOME/workspace/dotfiles/gitignore .gitignore'
-alias gstatus='git status'
+alias gst='git status'
 alias gadd='git add '
 alias gcommit='git commit -m'
 alias gpush='git push '
@@ -76,3 +76,10 @@ alias to_requirement='pip freeze > requirements.txt'
 alias tutorial='cd $HOME/workspace/projects/tutorial'
 alias personal='cd $HOME/workspace/projects/personal'
 alias workspace='cd $HOME/workspace'
+alias gct="git branch -D test;git pull;git checkout test"
+alias gcd="git branch -D develop;git pull;git checkout develop"
+alias gcs="git branch -D staging;git pull;git checkout staging"
+alias gcm="git branch -D master;git pull;git checkout master"
+alias gbr="git branch -r"
+alias grs="git reset --hard"
+alias gnb="git checkout -b "
