@@ -8,5 +8,6 @@
   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [user]
 	name = linhnp
+	email = linhnp2610@gmail.com
 [core]
 	editor = nvim
