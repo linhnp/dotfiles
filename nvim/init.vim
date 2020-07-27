@@ -14,11 +14,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe'
-Plug 'ludovicchabant/vim-gutentags'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tacahiroy/ctrlp-funky'
+Plug 'vimwiki/vimwiki'
 
 " Initialize plugin system
 call plug#end()
@@ -67,7 +68,7 @@ endif
 "
 
 let mapleader = ","				" rebind <Leader> key
-imap jj <Esc>					" map jj to <ESC>
+inoremap jj <Esc>					" map jj to <ESC>
 map <F7> mzgg=G					" mapping F7 to format ident
 map <F8> gggqG					" mapping F7 to format ident
 noremap <C-n> :nohl<CR>			" Remove hightlight of last search
@@ -135,6 +136,19 @@ if has("autocmd")
         au BufNewFile * :silent! exec ":0r ".$VHOME."/templates/".&ft
 
 	augroup END
+
+    " vimwiki
+    augroup vimwikigroup
+        " template for diary
+        function! NewDiary()
+            silent! 0r $VHOME/templates/vimwiki-diary
+            s/FILENAME/\=expand("%:t:r")
+        endfunction
+        au BufNewFile ~/workspace/vimwiki/diary/*.md call NewDiary()
+
+        " automatically update links on read diary
+        autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+    augroup end
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
@@ -185,31 +199,6 @@ endif
 " ag search
 " noremap <Leader>\ :Ack<SPACE>
 
-" NeoSolarized
-"set termguicolors
-"silent! colorscheme NeoSolarized
-"set background=dark
-
-" default value is "normal", Setting this option to "high" or "low" does use the
-" same Solarized palette but simply shifts some values up or down in order to
-" expand or compress the tonal range displayed.
-"let g:neosolarized_contrast = "normal"
-
-" Special characters such as trailing whitespace, tabs, newlines, when displayed
-" using ":set list" can be set to one of three levels depending on your needs.
-" Default value is "normal". Provide "high" and "low" options.
-"let g:neosolarized_visibility = "normal"
-
-" I make vertSplitBar a transparent background color. If you like the origin solarized vertSplitBar
-" style more, set this value to 0.
-"let g:neosolarized_vertSplitBgTrans = 1
-
-" If you wish to enable/disable NeoSolarized from displaying bold, underlined or italicized
-" typefaces, simply assign 1 or 0 to the appropriate variable. Default values:
-"let g:neosolarized_bold = 1
-"let g:neosolarized_underline = 1
-"let g:neosolarized_italic = 0
-
 " set vim-airline not to use powerline font
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -239,26 +228,6 @@ let g:airline_mode_map = {
 			\ 't'  : 'Termnl',
 			\ }
 
-" open/close folder tree
-" function! ToggleVExplorer()
-"  if exists("t:expl_buf_num")
-"      let expl_win_num = bufwinnr(t:expl_buf_num)
-"      if expl_win_num != -1
-"          " let cur_win_nr = winnr()
-"          exec expl_win_num . 'wincmd w'
-"          close
-"          " exec cur_win_nr . 'wincmd w'
-"	  endif
-"	  unlet t:expl_buf_num
-"  else
-"      exec '1wincmd w'
-"      Vexplore
-"      let t:expl_buf_num = bufnr("%")
-"  endif
-" endfunction
-
-" map TLeader>t :call ToggleVExplorer()<CR>
-
 if has("unix")
   let s:uname = system("uname")
   if s:uname == "Darwin\n"
@@ -271,3 +240,18 @@ nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
+
+let g:vimwiki_list = [{'path': '~/workspace/vimwiki/','index': 'README', 'syntax': 'markdown', 'ext': '.md'}]
+" vimwiki will only set the filetype of markdown files inside a wiki directory, rather than globally
+let g:vimwiki_global_ext = 0
+command! Diary VimwikiDiaryIndex
+command! DiaryTmr VimwikiMakeTomorrowDiaryNote
+nnoremap <Leader>wg :VimwikiGoto<Space>
+" command! Vwkgoto VimwikiGoto <TAB>
+
+" highhight trailing spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\s\+$/
