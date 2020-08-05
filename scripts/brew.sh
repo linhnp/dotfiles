@@ -1,5 +1,10 @@
 #!/bin/bash
 
+sudo -v
+
+echo "! Install Developer Tools"
+xcode-select --install
+
 # check if brew is installed
 which -s brew
 if [[ $? != 0 ]] ; then
@@ -11,10 +16,7 @@ brew update
 
 brew upgrade
 
-brew install zsh
-
-echo Change default shell to zsh
-chsh -s $(which zsh)
+brew cask install iterm2
 
 brew install zsh-completions
 
@@ -34,8 +36,8 @@ brew install the_silver_searcher
 
 # brew cask install gimp
 
-brew install python3
-
-pip3 install virtualenv neovim autopep8
+sudo pip3 install virtualenv neovim autopep8
+pip3 install --user jedi
+ln -s /usr/bin/python3 /usr/local/bin/python3
 
 brew cleanup

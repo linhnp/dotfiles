@@ -52,6 +52,7 @@ if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
 	mkdir -p $DOTFILE_HOME/nvim/bundle
 fi
 nvim +PlugInstall +qall
+nvim +UpdateRemotePlugins +qall
 
 ########################
 # Install powerline font
