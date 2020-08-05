@@ -18,21 +18,21 @@ chsh -s $(which zsh)
 
 brew install zsh-completions
 
-brew install wget
+# brew install wget
 
 brew install neovim
 
 brew install git
 
-brew install p7zip
+# brew install p7zip
 
 brew install tmux
 
 brew install the_silver_searcher
 
-brew install ctags
+# brew install ctags
 
-brew cask install gimp
+# brew cask install gimp
 
 brew install python3
 
