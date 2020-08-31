@@ -7,6 +7,9 @@ let $VHOME = $HOME."/.config/nvim"
 let $VWHOME = $HOME."/workspace/vimwiki"
 set runtimepath+=$VHOME."/bundle/vim-plug"
 let mapleader = ","    " rebind <Leader> key
+let g:loaded_python_provider=0
+let g:python_host_skip_check=1
+let g:python3_host_skip_check=1
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin($VHOME.'/bundle')
@@ -84,7 +87,9 @@ vnoremap <c-f> y<ESC>/<c-r>"<CR>
 " tnoremap <Leader>T <C-\><C-n>	" Exit from Terminal mode
 
 " For all text files set 'textwidth' to 78 characters.
-au FileType text setlocal textwidth=79
+" set textwidth=80
+" paragraph is dynamically resized when a change is made to its lines set
+" formatoptions+=a
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
@@ -109,7 +114,7 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " use solarized scheme
-set background=dark
+set background=light
 colorscheme solarized
 
 " highhight trailing spaces
@@ -182,6 +187,7 @@ if has("unix")
     if s:uname == "Darwin\n"
         " Do Mac stuff here
         let g:python3_host_prog = '/usr/local/bin/python3'
+        let g:python_host_prog = '/usr/local/bin/python3'
     endif
 endif
 
@@ -216,3 +222,7 @@ call deoplete#custom#source('_', 'max_menu_width', 80)
 " set to Tab to move in popup
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+if filereadable(expand('~/.abbrev.vim'))
+    so ~/.abbrev.vim
+endif
