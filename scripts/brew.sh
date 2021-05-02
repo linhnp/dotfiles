@@ -36,8 +36,10 @@ brew install the_silver_searcher
 
 # brew cask install gimp
 
-sudo pip3 install virtualenv neovim autopep8
-pip3 install --user jedi
-ln -s /usr/bin/python3 /usr/local/bin/python3
+brew install python3@3.9
+
+/usr/local/bin/pip3 install --user virtualenv neovim autopep8 jedi pynvim
+
+sudo chmod -R go-w /usr/local/share
 
 brew cleanup

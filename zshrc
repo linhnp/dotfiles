@@ -12,7 +12,7 @@ compinit
 # End of lines added by compinstall
 
 autoload -U colors && colors
-PROMPT="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg_no_bold[green]%}%d ~ %{$reset_color%}%# "
+PROMPT="%{$fg_no_bold[green]%}%~ % %{$reset_color%}"
 RPROMPT="[%{$fg_no_bold[yellow]%}%@%{$reset_color%} ]"
 
 TMOUT=20
@@ -68,16 +68,15 @@ alias gbranch='git branch'
 alias gdiff='git diff'
 alias gcheckout='git checkout '
 alias fastgit='git add . && git commit && git push origin master'
-alias whatismyip='wget -qO- ipinfo.io/ip'
-alias projects='cd $HOME/workspace/projects'
+alias whatismyip='curl ipinfo.io/ip'
 alias env_source='source env/bin/activate'
 alias env_create='virtualenv env -p python3'
 alias to_requirement='pip freeze > requirements.txt'
-alias tutorial='cd $HOME/workspace/projects/tutorial'
-alias personal='cd $HOME/workspace/projects/personal'
 alias workspace='cd $HOME/workspace'
 alias gbr="git branch -r"
 alias grs="git reset --hard"
 alias gnb="git checkout -b "
 alias wiki='vim +VimwikiIndex'
 alias diary='vim +VimwikiMakeDiaryNote'
+alias dockerignore='cp $HOME/workspace/dotfiles/nvim/templates/dockerignore .dockerignore'
+alias ll='ls -la'

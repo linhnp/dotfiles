@@ -9,7 +9,6 @@ set runtimepath+=$VHOME."/bundle/vim-plug"
 let mapleader = ","    " rebind <Leader> key
 let g:loaded_python_provider=0
 let g:python_host_skip_check=1
-let g:python3_host_skip_check=1
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin($VHOME.'/bundle')
@@ -27,7 +26,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'vimwiki/vimwiki'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'altercation/vim-colors-solarized'
 
 " Initialize plugin system
