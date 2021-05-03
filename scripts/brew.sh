@@ -16,7 +16,7 @@ brew update
 
 brew upgrade
 
-brew cask install iterm2
+brew install --cask iterm2 keepassxc
 
 brew install zsh-completions
 
