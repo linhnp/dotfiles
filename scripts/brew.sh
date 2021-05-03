@@ -36,7 +36,7 @@ brew install the_silver_searcher
 
 # brew cask install gimp
 
-brew install python3@3.9
+brew install python@3.9
 
 /usr/local/bin/pip3 install --user virtualenv neovim autopep8 jedi pynvim
 
