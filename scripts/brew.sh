@@ -32,11 +32,17 @@ brew install tmux
 
 brew install the_silver_searcher
 
+brew install ripgrep
+
 # brew install ctags
 
 # brew cask install gimp
 
 brew install python@3.9
+
+brew install node
+
+npm install -g n pyright
 
 /usr/local/bin/pip3 install --user virtualenv neovim autopep8 jedi pynvim
 

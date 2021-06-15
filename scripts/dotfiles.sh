@@ -53,13 +53,14 @@ if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
 fi
 nvim +PlugInstall +qall
 nvim +UpdateRemotePlugins +qall
+nvim +'TSInstall python' +qall
 
 ########################
 # Install powerline font
-echo "Install powerline fonr"
-cd /tmp
-git clone https://github.com/powerline/fonts.git
-./fonts/install.sh
+#echo "Install powerline fonr"
+#cd /tmp
+#git clone https://github.com/powerline/fonts.git
+#./fonts/install.sh
 
 #
 ########################
