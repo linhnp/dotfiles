@@ -1,5 +1,3 @@
-"set t_ut=
-
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 set ff=unix
@@ -8,36 +6,38 @@ let $VWHOME = $HOME."/workspace/vimwiki"
 set runtimepath+=$VHOME."/bundle/vim-plug"
 let mapleader = ","    " rebind <Leader> key
 let g:loaded_python_provider=0
+let g:loaded_perl_provider = 0
 let g:python_host_skip_check=1
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin($VHOME.'/bundle')
 
 "Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-fugitive'
-"Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'tpope/vim-fugitive'
+Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 "Plug 'tpope/vim-surround'
 "Plug 'Valloric/YouCompleteMe'
 "Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
 "Plug 'Xuyuanp/nerdtree-git-plugin'
-"Plug 'tacahiroy/ctrlp-funky'
+Plug 'tacahiroy/ctrlp-funky'
 Plug 'vimwiki/vimwiki'
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 "Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter'
 "Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'lifepillar/vim-solarized8'
 "Plug 'jmcantrell/vim-virtualenv'
+Plug 'linhnp/lualine.nvim'
 
 " Initialize plugin system
 call plug#end()
@@ -124,8 +124,12 @@ endif
 
 " use solarized scheme
 set background=light
-autocmd vimenter * ++nested colorscheme solarized8
-" colorscheme solarized8
+if exists('$TMUX')
+    colorscheme solarized
+else
+    set termguicolors " this variable must be enabled for colors to be applied properly
+    autocmd vimenter * ++nested colorscheme solarized8
+endif
 
 " highhight trailing spaces
 " need to be placed after selecting scheme
@@ -146,7 +150,8 @@ au InsertLeave * match ExtraWhiteSpace /\s\+$/
 " ctrlp.vim
 " let g:ctrlp_map = '<c-p>'					" quick open ctrlp
 " let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_max_history = 0
 
 " The Silver Searcher
 if executable('ag')
@@ -164,33 +169,33 @@ if executable('ag')
 endif
 
 " set vim-airline not to use powerline font
-let g:airline_powerline_fonts = 0
-let g:airline#extensions#tabline#enabled = 0
-let g:airline_theme='bubblegum'
-" remove airline symbols
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.readonly = '[RO]'
-let g:airline_symbols.linenr = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.maxlinenr = ''
-
-"let g:solarized_termcolors=256
-let g:airline_mode_map = {
-    \ '__' : '──────',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'RPlace',
-    \ 'v'  : 'V',
-    \ 'V'  : 'V-Line',
-    \ '^V' : 'V-Bloc',
-    \ 'c'  : 'Commnd',
-    \ 's'  : 'Select',
-    \ 'S'  : 'S-Line',
-    \ '^S' : 'S-Bloc',
-    \ 't'  : 'Termnl',
-    \ }
+" let g:airline_powerline_fonts = 0
+" let g:airline#extensions#tabline#enabled = 0
+" let g:airline_theme='bubblegum'
+" " remove airline symbols
+" if !exists('g:airline_symbols')
+"     let g:airline_symbols = {}
+" endif
+" let g:airline_symbols.readonly = '[RO]'
+" let g:airline_symbols.linenr = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.maxlinenr = ''
+" 
+" "let g:solarized_termcolors=256
+" let g:airline_mode_map = {
+"     \ '__' : '──────',
+"     \ 'n'  : 'N',
+"     \ 'i'  : 'I',
+"     \ 'R'  : 'RPlace',
+"     \ 'v'  : 'V',
+"     \ 'V'  : 'V-Line',
+"     \ '^V' : 'V-Bloc',
+"     \ 'c'  : 'Commnd',
+"     \ 's'  : 'Select',
+"     \ 'S'  : 'S-Line',
+"     \ '^S' : 'S-Bloc',
+"     \ 't'  : 'Termnl',
+"     \ }
 
 if has("unix")
     let s:uname = system("uname")
@@ -201,10 +206,10 @@ if has("unix")
     endif
 endif
 
-" nnoremap <Leader>fu :CtrlPFunky<Cr>
+nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-" nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-" let g:ctrlp_funky_syntax_highlight = 1
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
 
 " vimwiki
 let g:vimwiki_list = [{'path': $VWHOME,'index': 'README', 'syntax': 'markdown', 'ext': '.md'}]
@@ -237,6 +242,8 @@ endif
 
 lua << EOF
 require'lspconfig'.pyright.setup{}
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.vuels.setup{}
 
 require('telescope').setup{
   defaults = {
@@ -316,6 +323,60 @@ require'compe'.setup {
   };
 }
 
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys 
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "pyright", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
+
+-- lualine
+require'lualine'.setup {
+  options = {
+    icons_enabled = false,
+    theme = 'gruvbox_light',
+    component_separators = {'|', '|'},
+    section_separators = '',
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+
 EOF
 
 " nvim-compe
@@ -340,12 +401,11 @@ nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
 " NvimTreeOpen and NvimTreeClose are also available if you need them
 
-set termguicolors " this variable must be enabled for colors to be applied properly
 
 " a list of groups can be found at `:help nvim_tree_highlight`
 highlight NvimTreeFolderIcon guibg=blue
 
-let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+let g:nvim_tree_ignore = [ '__pycache__', 'env', '.git', 'node_modules', '.cache' ] "empty by default
 let g:nvim_tree_gitignore = 1 "0 by default
 let g:nvim_tree_auto_close = 1
 let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
