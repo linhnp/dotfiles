@@ -1,0 +1,10 @@
+[merge]
+	tool = vimdiff
+    #conflictstyle = diff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[core]
+	editor = nvim

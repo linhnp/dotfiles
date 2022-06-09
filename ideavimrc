@@ -1,0 +1,12 @@
+let mapleader = ","
+
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+inoremap jj <Esc>
+map Q gq
+
+map <leader>b <Action>(ToggleLineBreakpoint)
+map <leader>d <Action>(Debug)
+map \r <Action>(ReformatCode)
