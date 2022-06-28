@@ -1,2 +1,2 @@
 @echo off
-nvim %1
+git diff
