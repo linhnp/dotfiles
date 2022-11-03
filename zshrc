@@ -11,8 +11,15 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+# Load version control information
+autoload -Uz vcs_info
+precmd() { vcs_info }
+# Format the vcs_info_msg_0_ variable
+zstyle ':vcs_info:git:*' formats 'on %b '
+
 autoload -U colors && colors
-PROMPT="%{$fg_no_bold[green]%}%~ % %{$reset_color%}"
+setopt prompt_subst
+PROMPT='%{$fg_no_bold[green]%}%~ % %{$reset_color%}${vcs_info_msg_0_}%{$fg_no_bold[green]%}>%{$reset_color%} '
 RPROMPT="[%{$fg_no_bold[yellow]%}%@%{$reset_color%} ]"
 
 TMOUT=20

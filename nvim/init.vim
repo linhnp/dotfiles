@@ -3,7 +3,7 @@ set fileencoding=utf-8  " The encoding written to file.
 set ff=unix
 let $TAR_DIR = $HOME
 let $VHOME = $HOME."/.config/nvim"
-let $VWHOME = $TAR_DIR."/workspace/wiki"
+let $VWHOME = $TAR_DIR."/workspace/vimwiki"
 let $JOBHOME = $TAR_DIR."/workspace/jobs"
 set runtimepath+=$VHOME."/bundle/vim-plug"
 let mapleader = ","    " rebind <Leader> key
@@ -26,18 +26,22 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'vimwiki/vimwiki'
 Plug 'altercation/vim-colors-solarized'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'nvim-lua/popup.nvim'
+"Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+"Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'lifepillar/vim-solarized8'
 Plug 'linhnp/lualine.nvim'
-Plug 'ray-x/lsp_signature.nvim'
+"Plug 'ray-x/lsp_signature.nvim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'tweekmonster/startuptime.vim'
+"Plug 'tweekmonster/startuptime.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -62,11 +66,13 @@ set rnu nu 						" display line number
 " nnoremap <F6> :set nornu!<CR>	" mapping F6 to nonumber
 " set autochdir 					" auto set current file's folder current folder
 set guitablabel=%t				" set vim tab only display file name
-map <C-t> :vsp term://zsh			" Open terminal in vertical split
-map <C-s> :sp term://zsh			" Open terminal in hsplit
 noremap <Leader>Q :ccl<CR>		" CLose quickfix
 set autoindent nosmartindent
 set wildignore=*.pyc
+
+set foldmethod=indent
+set foldlevel=1
+"set foldclose=all
 
 " set clipboard=unnamedplus		" mapping register to clipboard
 " set clipboard=unnamed
@@ -78,25 +84,11 @@ endif
 
 " mapping
 inoremap jj <Esc>					" map jj to <ESC>
-map <F7> mzgg=G					" mapping F7 to format ident
-map <F8> gggqG					" mapping F7 to format ident
 noremap <C-n> :nohl<CR>			" Remove hightlight of last search
 noremap <Leader>s :update<CR>	" Quick save command
 noremap <Leader>q :quit<CR>		" Quick quit command
 vnoremap < <gv					" moving code block
 vnoremap > >gv					" moving code block
-" map <Leader>l <C-w>l			" moving between split
-" map <Leader>h <C-w>h
-" map <Leader>j <C-w>j
-" map <Leader>k <C-w>k
-tnoremap <Leader>h <C-\><C-N><C-w>h
-tnoremap <Leader>j <C-\><C-N><C-w>j
-tnoremap <Leader>k <C-\><C-N><C-w>k
-tnoremap <Leader>l <C-\><C-N><C-w>l
-nnoremap <Leader>h <C-w>h
-nnoremap <Leader>j <C-w>j
-nnoremap <Leader>k <C-w>k
-nnoremap <Leader>l <C-w>l
 map Q gq						" Don't use Ex mode, use Q for formatting
 inoremap <C-U> <C-G>u<C-U>		" Use CTRL-G u to first break undo, so that you can undo CTRL-U after inserting a line break.
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -299,43 +291,80 @@ require('telescope').setup{
   }
 }
 
--- nvim-compe
-vim.o.completeopt = "menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
+-- Set up nvim-cmp.
+local cmp = require'cmp'
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = true;
-  };
-}
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif vim.fn["vsnip#jumpable"](1) == 1 then
+        feedkey("<Plug>(vsnip-jump-next)", "")
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+      end
+    end, {"i", "s"}),
 
+    ["<S-Tab>"] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        feedkey("<Plug>(vsnip-jump-prev)", "")
+      end
+    end, {"i", "s"})
+  }),
+  sources = cmp.config.sources(
+    {
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' } -- For vsnip users
+    }, 
+    {
+      { name = 'buffer' }
+    }
+  )
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- Set up lspconfig.
 local nvim_lsp = require('lspconfig')
-
--- lsp_signature
-require('lsp_signature').on_attach()
-
--- Use an on_attach function to only map the following keys 
--- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  require'lsp_signature'.on_attach()
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
   -- Mappings.
@@ -349,11 +378,16 @@ local on_attach = function(client, bufnr)
 
 end
 
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = { "pyright", "tsserver" }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
+  nvim_lsp[lsp].setup { 
+    on_attach = on_attach,
+    capabilities = capabilities 
+  }
 end
 
 -- lualine
@@ -452,24 +486,28 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end
 })
 
+-- treesitter
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"python"}, 
+  sync_install = false,
+  auto_install = false,
+  highlight = {
+    enable = true,
+  }
+}
+
 EOF
 
 " nvim-compe
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-" tab to navigate completion menu
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+"  tab to navigate completion menu
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope git_files<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser<cr>
 nnoremap <leader>gs <cmd>Telescope grep_string<cr>
-
 
 " nvim-tree
 nnoremap <leader>t :NvimTreeToggle<CR>
@@ -482,3 +520,4 @@ highlight NvimTreeFolderIcon guibg=blue
 " auto-pairs
 let g:AutoPairsFlyMode = 1
 let g:AutoPairsShortcutBackInsert = '<leader>b'
+
