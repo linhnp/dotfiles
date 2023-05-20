@@ -53,6 +53,8 @@ Plug 'LunarWatcher/auto-pairs'
 
 Plug 'Vimjas/vim-python-pep8-indent'
 
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
 " Initialize plugin system
 call plug#end()
 
@@ -84,8 +86,7 @@ set wildignore=*.pyc
 "set foldlevel=1
 "set foldclose=all
 
-" set clipboard=unnamedplus		" mapping register to clipboard
-" set clipboard=unnamed
+set clipboard+=unnamedplus
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -447,12 +448,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- treesitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"python"}, 
+  ensure_installed = {"python"},
   sync_install = false,
   auto_install = false,
   highlight = {
     enable = true,
   }
+}
+
+-- toggleterm terminal
+require("toggleterm").setup{
+    open_mapping = [[<c-\>]],
+    hide_numbers = true, -- hide the number column in toggleterm buffers
+    direction = 'float',
+    close_on_exit = true,
+    insert_mappings = true,
+    terminal_mappings = true,
 }
 
 EOF
