@@ -43,6 +43,7 @@ fi
 
 echo "--> Installing nvim"
 ln -sF $DOTFILE_HOME/nvim $HOME/.config/
+ln -sF $DOTFILE_HOME/nvim/vsnip $HOME/.vsnip
 
 #
 ########################
