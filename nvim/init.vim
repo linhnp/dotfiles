@@ -18,9 +18,9 @@ call plug#begin($VHOME.'/bundle')
 Plug 'tpope/vim-fugitive'
 
 " fuzzy file finder, need it for ctrlp-funky
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 " function navigator
-Plug 'tacahiroy/ctrlp-funky'
+" Plug 'tacahiroy/ctrlp-funky'
 
 Plug 'altercation/vim-colors-solarized'
 Plug 'lifepillar/vim-solarized8'
@@ -169,10 +169,10 @@ au InsertLeave * match ExtraWhiteSpace /\s\+$/
 "    endif
 "endif
 
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
+" nnoremap <Leader>fu :CtrlPFunky<Cr>
+" " narrow the list down with a word under cursor
+" nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+" let g:ctrlp_funky_syntax_highlight = 1
 
 if filereadable(expand('~/.abbrev.vim'))
     so ~/.abbrev.vim
@@ -184,12 +184,6 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.vuels.setup{}
 
 require('telescope').setup{
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        }
-    },
     defaults = {
         vimgrep_arguments = {
           'rg',
@@ -242,7 +236,18 @@ require('telescope').setup{
         preview = {
             hide_on_startup = false -- hide previewer when picker starts
         }
-  }
+    },
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+        }
+    },
+    pickers = {
+        treesitter = {
+            symbols = {'function'}
+        }
+    }
 }
 require('telescope').load_extension('fzy_native')
 
