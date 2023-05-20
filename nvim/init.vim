@@ -47,7 +47,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'kyazdani42/nvim-tree.lua'
 
-Plug 'linhnp/lualine.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'LunarWatcher/auto-pairs'
 
