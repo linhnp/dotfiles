@@ -283,26 +283,26 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      local col = vim.fn.col('.') - 1
+    --['<Tab>'] = cmp.mapping(function(fallback)
+    --  local col = vim.fn.col('.') - 1
 
-      if cmp.visible() then
-        cmp.select_next_item(select_opts)
-      elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        fallback()
-      else
-        cmp.complete()
-      end
-    end, {'i', 's'}),
-    -- end <Tab>
+    --  if cmp.visible() then
+    --    cmp.select_next_item(select_opts)
+    --  elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+    --    fallback()
+    --  else
+    --    cmp.complete()
+    --  end
+    --end, {'i', 's'}),
+    ---- end <Tab>
 
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item(select_opts)
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
+    --['<S-Tab>'] = cmp.mapping(function(fallback)
+    --  if cmp.visible() then
+    --    cmp.select_prev_item(select_opts)
+    --  else
+    --    fallback()
+    --  end
+    --end, {'i', 's'}),
     -- end <S-Tab>
   }),
   sources = cmp.config.sources(
@@ -484,6 +484,14 @@ require("toggleterm").setup{
 
 
 EOF
+
+" vsnip
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>

@@ -1,0 +1,28 @@
+{
+    "snippet-python": {
+        "scope": "json",
+        "prefix": "snippet-python",
+        "body": [
+            "\"$1\": {",
+            "\t\"scope\": \"python\",",
+            "\t\"prefix\": \"$2\",",
+            "\t\"body\":[",
+            "\t\t\"$0\",",
+            "\t]",
+            "}"
+        ]
+    },
+    "snippet-json": {
+        "scope": "json",
+        "prefix": "snippet-json",
+        "body": [
+            "\"$1\": {",
+            "\t\"scope\": \"json\",",
+            "\t\"prefix\": \"$2\",",
+            "\t\"body\":[",
+            "\t\t\"$0\",",
+            "\t]",
+            "}"
+        ]
+    }
+}

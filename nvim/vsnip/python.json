@@ -5,5 +5,19 @@
         "body": [
             "if __name__ == '__main__':"
         ]
+    },
+    "main-parser": {
+        "scope": "python",
+        "prefix": "main-parser",
+        "body": [
+            "import argparse",
+            "",
+            "",
+            "if __name__ == '__main__':",
+            "\tparser = argparse.ArgumentParser(description=\"Sample\")",
+            "\tparser.add_argument('-$1', '--$0')",
+            "\targs = vars(parser.parse_args())"
+        ],
+        "description": "Main with Argument Parser"
     }
 }
