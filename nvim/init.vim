@@ -14,34 +14,44 @@ let g:python_host_skip_check=1
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin($VHOME.'/bundle')
 
-"Plug 'scrooloose/nerdtree'
+" this mostly for the status line
 Plug 'tpope/vim-fugitive'
+
+" fuzzy file finder, need it for ctrlp-funky
 Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'tpope/vim-surround'
-Plug 'mileszs/ack.vim'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
+" function navigator
 Plug 'tacahiroy/ctrlp-funky'
-Plug 'vimwiki/vimwiki'
+
 Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
+
 Plug 'neovim/nvim-lspconfig'
-"Plug 'hrsh7th/nvim-compe'
-Plug 'hrsh7th/nvim-cmp'
+
+" autocompletion
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" vscode snippet format
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-"Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+
 Plug 'nvim-telescope/telescope.nvim'
+" Include general nvim functions, for letescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+" Programming language parsing system, for highlighting, still an experimental feature
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'lifepillar/vim-solarized8'
+
 Plug 'linhnp/lualine.nvim'
-"Plug 'ray-x/lsp_signature.nvim'
-Plug 'jiangmiao/auto-pairs'
+
+Plug 'LunarWatcher/auto-pairs'
+
 Plug 'Vimjas/vim-python-pep8-indent'
-"Plug 'tweekmonster/startuptime.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -70,8 +80,8 @@ noremap <Leader>Q :ccl<CR>		" CLose quickfix
 set autoindent nosmartindent
 set wildignore=*.pyc
 
-set foldmethod=indent
-set foldlevel=1
+"set foldmethod=indent
+"set foldlevel=1
 "set foldclose=all
 
 " set clipboard=unnamedplus		" mapping register to clipboard
@@ -144,98 +154,25 @@ au BufEnter * match ExtraWhitespace /\s\+$/
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\s\+$/
 
-" Nerdtree
-" let g:netrw_list_hide= '.*\.pyc$'
-" map <Leader>t :NERDTreeToggle<CR>			" Map to ,t
-" let NERDTreeShowHidden=1					" Set show hidden file
-" let NERDTreeShowBookmarks=1					" Enable nerdtree bookmarks
-" " close vim when NerdTree is the only window left open
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 " ctrlp.vim
 " let g:ctrlp_map = '<c-p>'					" quick open ctrlp
 " let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_history = 0
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_max_history = 0
 
-" The Silver Searcher
-if executable('ag')
-    " use Ag with [ack.vim]
-    let g:ackprg = 'ag --vimgrep --smart-case'
-    cnoreabbrev Ack Ack!
-    nnoremap <Leader>a :Ack!<Space>
-
-    " Use ag in CtrlP for listing files. Lightning fast and respects
-    " .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-    " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
-endif
-
-" set vim-airline not to use powerline font
-" let g:airline_powerline_fonts = 0
-" let g:airline#extensions#tabline#enabled = 0
-" let g:airline_theme='bubblegum'
-" " remove airline symbols
-" if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-" endif
-" let g:airline_symbols.readonly = '[RO]'
-" let g:airline_symbols.linenr = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.maxlinenr = ''
-" 
-" "let g:solarized_termcolors=256
-" let g:airline_mode_map = {
-"     \ '__' : '──────',
-"     \ 'n'  : 'N',
-"     \ 'i'  : 'I',
-"     \ 'R'  : 'RPlace',
-"     \ 'v'  : 'V',
-"     \ 'V'  : 'V-Line',
-"     \ '^V' : 'V-Bloc',
-"     \ 'c'  : 'Commnd',
-"     \ 's'  : 'Select',
-"     \ 'S'  : 'S-Line',
-"     \ '^S' : 'S-Bloc',
-"     \ 't'  : 'Termnl',
-"     \ }
-
-if has("unix")
-    let s:uname = system("uname")
-    if s:uname == "Darwin\n"
-        " Do Mac stuff here
-        let g:python3_host_prog = '/usr/local/bin/python3'
-        let g:python_host_prog = '/usr/local/bin/python3'
-    endif
-endif
+"if has("unix")
+"    let s:uname = system("uname")
+"    if s:uname == "Darwin\n"
+"        " Do Mac stuff here
+"        let g:python3_host_prog = '/usr/local/bin/python3'
+"        let g:python_host_prog = '/usr/local/bin/python3'
+"    endif
+"endif
 
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
-
-" vimwiki
-let wiki_main = {'path': $VWHOME,'index': 'README', 'syntax': 'markdown', 'ext': '.md'}
-let wiki_job = {'path': $JOBHOME, 'index': 'README', 'syntax': 'markdown', 'ext': '.md'}
-let g:vimwiki_list = [wiki_main, wiki_job]
-" vimwiki will only set the filetype of markdown files inside a wiki directory, rather than globally
-let g:vimwiki_global_ext = 0
-command! Diary VimwikiDiaryIndex
-command! DiaryTmr VimwikiMakeTomorrowDiaryNote
-nnoremap <Leader>wg :VimwikiGoto<Space>
-nnoremap gk :VimwikiToggleListItem<Cr>
-let g:vimwiki_listsyms = ' .oOx'
-" template for diary
-function! NewDiary()
-    silent! 0r $VHOME/templates/vimwiki-diary
-    s/FILENAME/\=expand("%:t:r")
-endfunction
-au BufNewFile $VWHOME/diary/*.md call NewDiary()
-au BufNewFile $JOBHOME/diary/*.md call NewDiary()
-" automatically update links on read diary
-autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
 
 if filereadable(expand('~/.abbrev.vim'))
     so ~/.abbrev.vim
@@ -247,6 +184,12 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.vuels.setup{}
 
 require('telescope').setup{
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+        }
+    },
     defaults = {
         vimgrep_arguments = {
           'rg',
@@ -267,6 +210,7 @@ require('telescope').setup{
         layout_config = {
           horizontal = {
             mirror = false,
+            preview_cutoff = 0,
           },
           vertical = {
             mirror = false,
@@ -287,9 +231,20 @@ require('telescope').setup{
         qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
 
         -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+        mappings = {
+            i = {
+                ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+                ['<C-j>'] = require('telescope.actions').move_selection_next,
+                ['<C-k>'] = require('telescope.actions').move_selection_previous,
+            }
+        },
+        preview = {
+            hide_on_startup = false -- hide previewer when picker starts
+        }
   }
 }
+require('telescope').load_extension('fzy_native')
 
 vim.o.completeopt = "menu,menuone,noselect"
 
@@ -313,31 +268,30 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif vim.fn["vsnip#jumpable"](1) == 1 then
-        feedkey("<Plug>(vsnip-jump-next)", "")
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-      end
-    end, {"i", "s"}),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+  local col = vim.fn.col('.') - 1
 
-    ["<S-Tab>"] = cmp.mapping(function()
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
-      end
-    end, {"i", "s"})
+  if cmp.visible() then
+    cmp.select_next_item(select_opts)
+  elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+    fallback()
+  else
+    cmp.complete()
+  end
+end, {'i', 's'}),
+   ['<S-Tab>'] = cmp.mapping(function(fallback)
+  if cmp.visible() then
+    cmp.select_prev_item(select_opts)
+  else
+    fallback()
+  end
+end, {'i', 's'}),
   }),
   sources = cmp.config.sources(
     {
       { name = 'nvim_lsp' },
       { name = 'vsnip' } -- For vsnip users
-    }, 
+    },
     {
       { name = 'buffer' }
     }
@@ -378,7 +332,7 @@ local on_attach = function(client, bufnr)
 
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -497,11 +451,6 @@ require'nvim-treesitter.configs'.setup {
 }
 
 EOF
-
-" nvim-compe
-"  tab to navigate completion menu
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>

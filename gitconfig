@@ -10,3 +10,5 @@
 	editor = nvim
 [init]
 	defaultBranch = master
+[user]
+	name = linhnp

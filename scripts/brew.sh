@@ -26,11 +26,9 @@ brew install git
 
 brew install tmux
 
-brew install the_silver_searcher
-
 brew install ripgrep
 
-brew install python@3.9
+brew install python
 
 brew install node
 
@@ -39,8 +37,6 @@ npm install -g n pyright
 /usr/local/bin/pip3 install --user virtualenv neovim autopep8 jedi pynvim
 
 sudo chmod -R go-w /usr/local/share
-
-brew install node
 
 npm install -g n
 
