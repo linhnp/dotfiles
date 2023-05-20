@@ -275,34 +275,36 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<Tab>'] = cmp.mapping(function(fallback)
-  local col = vim.fn.col('.') - 1
+      local col = vim.fn.col('.') - 1
 
-  if cmp.visible() then
-    cmp.select_next_item(select_opts)
-  elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-    fallback()
-  else
-    cmp.complete()
-  end
-end, {'i', 's'}),
-   ['<S-Tab>'] = cmp.mapping(function(fallback)
-  if cmp.visible() then
-    cmp.select_prev_item(select_opts)
-  else
-    fallback()
-  end
-end, {'i', 's'}),
+      if cmp.visible() then
+        cmp.select_next_item(select_opts)
+      elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        fallback()
+      else
+        cmp.complete()
+      end
+    end, {'i', 's'}),
+    -- end <Tab>
+
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item(select_opts)
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+    -- end <S-Tab>
   }),
   sources = cmp.config.sources(
     {
       { name = 'nvim_lsp' },
-      { name = 'vsnip' } -- For vsnip users
-    },
-    {
-      { name = 'buffer' }
-    }
-  )
+      { name = 'vsnip' }, -- For vsnip users
+      { name = 'buffer' },
+      { name = 'path' }
+  })
 })
+-- end cmd general setup
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
@@ -316,8 +318,7 @@ cmp.setup.cmdline({ '/', '?' }, {
 cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
+    { name = 'path' },
     { name = 'cmdline' }
   })
 })
@@ -344,9 +345,9 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 -- map buffer local keybindings when the language server attaches
 local servers = { "pyright", "tsserver" }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { 
+  nvim_lsp[lsp].setup {
     on_attach = on_attach,
-    capabilities = capabilities 
+    capabilities = capabilities
   }
 end
 
