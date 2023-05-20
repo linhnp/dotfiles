@@ -45,15 +45,18 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " Programming language parsing system, for highlighting, still an experimental feature
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'nvim-lualine/lualine.nvim'
 
-Plug 'LunarWatcher/auto-pairs'
+" Plug 'LunarWatcher/auto-pairs'
+Plug 'windwp/nvim-autopairs'
 
 Plug 'Vimjas/vim-python-pep8-indent'
 
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
+Plug 'dstein64/vim-startuptime'
 
 " Initialize plugin system
 call plug#end()
@@ -115,7 +118,7 @@ let g:vim_json_warnings = 0
 " formatoptions+=a
 
 " When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid or when inside an event handler
+" Don't do it when the position is invalid or when inside anevent handler
 " (happens when dropping a file on gvim).
 autocmd BufReadPost *
     \ if line("'\"") >= 1 && line("'\"") <= line("$") |
@@ -254,6 +257,12 @@ require('telescope').load_extension('fzy_native')
 
 vim.o.completeopt = "menu,menuone,noselect"
 
+-- auto-pairs
+require("nvim-autopairs").setup {
+}
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+
 -- Set up nvim-cmp.
 local cmp = require'cmp'
 
@@ -305,6 +314,12 @@ cmp.setup({
   })
 })
 -- end cmd general setup
+
+-- auto-pairs for cmp
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
@@ -380,72 +395,72 @@ require'lualine'.setup {
   extensions = {}
 }
 
-require'nvim-tree'.setup {
-  git = {
-    enable = true,
-    ignore = true
-  },
-  filters = {
-    custom = {'__pycache__', 'env', '.git', 'node_modules', '.cache'}
-  },
-  renderer = {
-    root_folder_modifier = ":~",
-    indent_markers = {
-      enable = false,
-      icons = {
-        corner = "└ ",
-        edge = "│ ",
-        item = "│ ",
-        none = "  ",
-      },
-    },
-    icons = {
-      webdev_colors = true,
-      git_placement = "before",
-      padding = " ",
-      symlink_arrow = " ➛ ",
-      show = {
-        file = true,
-        folder = true,
-        folder_arrow = true,
-        git = true,
-      },
-      glyphs = {
-        default = "",
-        symlink = "",
-        folder = {
-          arrow_closed = "",
-          arrow_open = "",
-          default = "▸",
-          open = "▾",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-          symlink_open = "",
-        },
-        git = {
-          unstaged = "✗",
-          staged = "✓",
-          unmerged = "",
-          renamed = "➜",
-          untracked = "★",
-          deleted = "",
-          ignored = "◌",
-        }
-      }
-    }
-  }
-}
-
--- vim-tree auto close
-vim.api.nvim_create_autocmd("BufEnter", {
-  nested = true,
-  callback = function()
-    if #vim.api.nvim_list_wins() == 1 and vim.api.nvim_buf_get_name(0):match("NvimTree_") ~= nil then
-      vim.cmd "quit"
-    end
-  end
-})
+--require'nvim-tree'.setup {
+--  git = {
+--    enable = true,
+--    ignore = true
+--  },
+--  filters = {
+--    custom = {'__pycache__', 'env', '.git', 'node_modules', '.cache'}
+--  },
+--  renderer = {
+--    root_folder_modifier = ":~",
+--    indent_markers = {
+--      enable = false,
+--      icons = {
+--        corner = "└ ",
+--        edge = "│ ",
+--        item = "│ ",
+--        none = "  ",
+--      },
+--    },
+--    icons = {
+--      webdev_colors = true,
+--      git_placement = "before",
+--      padding = " ",
+--      symlink_arrow = " ➛ ",
+--      show = {
+--        file = true,
+--        folder = true,
+--        folder_arrow = true,
+--        git = true,
+--      },
+--      glyphs = {
+--        default = "",
+--        symlink = "",
+--        folder = {
+--          arrow_closed = "",
+--          arrow_open = "",
+--          default = "▸",
+--          open = "▾",
+--          empty = "",
+--          empty_open = "",
+--          symlink = "",
+--          symlink_open = "",
+--        },
+--        git = {
+--          unstaged = "✗",
+--          staged = "✓",
+--          unmerged = "",
+--          renamed = "➜",
+--          untracked = "★",
+--          deleted = "",
+--          ignored = "◌",
+--        }
+--      }
+--    }
+--  }
+--}
+--
+---- vim-tree auto close
+--vim.api.nvim_create_autocmd("BufEnter", {
+--  nested = true,
+--  callback = function()
+--    if #vim.api.nvim_list_wins() == 1 and vim.api.nvim_buf_get_name(0):match("NvimTree_") ~= nil then
+--      vim.cmd "quit"
+--    end
+--  end
+--})
 
 -- treesitter
 require'nvim-treesitter.configs'.setup {
@@ -467,6 +482,7 @@ require("toggleterm").setup{
     terminal_mappings = true,
 }
 
+
 EOF
 
 " Find files using Telescope command-line sugar.
@@ -476,14 +492,14 @@ nnoremap <leader>fb <cmd>Telescope file_browser<cr>
 nnoremap <leader>gs <cmd>Telescope grep_string<cr>
 
 " nvim-tree
-nnoremap <leader>t :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
+" nnoremap <leader>t :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
 
 " a list of groups can be found at `:help nvim_tree_highlight`
 highlight NvimTreeFolderIcon guibg=blue
 
 " auto-pairs
-let g:AutoPairsFlyMode = 1
-let g:AutoPairsShortcutBackInsert = '<leader>b'
+" let g:AutoPairsFlyMode = 1
+" let g:AutoPairsShortcutBackInsert = '<leader>b'
 

@@ -1,0 +1,9 @@
+{
+    "main": {
+        "scope": "python",
+        "prefix": "main",
+        "body": [
+            "if __name__ == '__main__':"
+        ]
+    }
+}
