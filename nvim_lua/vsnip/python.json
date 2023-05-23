@@ -1,4 +1,11 @@
 {
+    "main": {
+        "scope": "python",
+        "prefix": "main",
+        "body": [
+            "if __name__ == '__main__':"
+        ]
+    },
     "main-parser": {
         "scope": "python",
         "prefix": "main-parser",

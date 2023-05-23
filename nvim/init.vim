@@ -71,6 +71,7 @@ set tabstop=4					" set tab width
 set softtabstop=4
 set expandtab
 set shiftwidth=4
+
 set nobackup					" set no backup file
 set nowritebackup
 set noswapfile					" set no swap file
@@ -486,8 +487,6 @@ require("toggleterm").setup{
 EOF
 
 " vsnip
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'

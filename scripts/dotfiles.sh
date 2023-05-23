@@ -42,19 +42,25 @@ if [ ! -d $HOME/.config ]; then
 fi
 
 echo "--> Installing nvim"
-ln -sF $DOTFILE_HOME/nvim $HOME/.config/
-ln -sF $DOTFILE_HOME/nvim/vsnip $HOME/.vsnip
+ln -sF $DOTFILE_HOME/nvim_lua $HOME/.config/nvim
+ln -sF $DOTFILE_HOME/nvim_lua/vsnip $HOME/.vsnip
 
 #
 ########################
 # Install Plug
-echo "Install Plug"
-if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
-	mkdir -p $DOTFILE_HOME/nvim/bundle
-fi
-nvim +PlugInstall +qall
-nvim +UpdateRemotePlugins +qall
-nvim +'TSInstall python' +qall
+# echo "Install Plug"
+# if [ ! -d $DOTFILE_HOME/nvim/bundle ]; then
+# 	mkdir -p $DOTFILE_HOME/nvim/bundle
+# fi
+# nvim +PlugInstall +qall
+# nvim +UpdateRemotePlugins +qall
+# nvim +'TSInstall python' +qall
+
+#########################
+# Install Lazy
+echo "Install Lazy"
+nvim --headless +qall
+nvim --headless "+Lazy! install" +qall
 
 ########################
 # Install powerline font

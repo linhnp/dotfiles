@@ -32,9 +32,7 @@ brew install python
 
 brew install node
 
-npm install -g n pyright
-
-/usr/local/bin/pip3 install --user virtualenv neovim autopep8 jedi pynvim
+/usr/local/bin/pip3 install --user virtualenv
 
 sudo chmod -R go-w /usr/local/share
 
