@@ -4,7 +4,6 @@ return {
 --    'altercation/vim-colors-solarized',
 --    'lifepillar/vim-solarized8',
 
-    'neovim/nvim-lspconfig',
 
     -- autocompletion
     'hrsh7th/cmp-nvim-lsp',
@@ -31,7 +30,7 @@ return {
 --    },
 
 --    'nvim-lualine/lualine.nvim',
-    'windwp/nvim-autopairs',
+--    'windwp/nvim-autopairs',
 
 --    'Vimjas/vim-python-pep8-indent',
 
@@ -40,6 +39,8 @@ return {
 --      version = "*",
 --      config = true
 --    },
+    'neovim/nvim-lspconfig',
+
     {
       "williamboman/mason.nvim",
       build = ":MasonUpdate" -- :MasonUpdate updates registry contents
