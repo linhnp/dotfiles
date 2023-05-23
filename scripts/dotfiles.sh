@@ -21,7 +21,7 @@ fi
 #
 # Setting file list
 #
-file_list=(zshrc tmux.conf gitconfig ideavimrc)
+file_list=(zshrc tmux.conf gitconfig ideavimrc vsnip)
 
 #
 # Start

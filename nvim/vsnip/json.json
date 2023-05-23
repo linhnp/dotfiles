@@ -24,5 +24,18 @@
             "\t]",
             "}"
         ]
+    },
+    "snippet-sh": {
+        "scope": "json",
+        "prefix": "snippet-sh",
+        "body": [
+            "\"$1\": {",
+            "\t\"scope\": \"sh\",",
+            "\t\"prefix\": \"$2\",",
+            "\t\"body\":[",
+            "\t\t\"$0\",",
+            "\t]",
+            "}"
+        ]
     }
 }

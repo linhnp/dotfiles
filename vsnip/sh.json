@@ -1,0 +1,20 @@
+{
+    "tmux_command": {
+        "scope": "sh",
+        "prefix": "tmux_command",
+        "body":[
+            "#!/bin/bash",
+            "",
+            "tmux new-session -d -s ${1:session} -n ${2:window}",
+            "tmux send-keys -t ${1:session}:${2:window} \"${0:command}\" Enter",
+            "tmux attach -t ${1:session}:${2:window}"
+        ]
+    },
+    "tmux_kill": {
+        "scope": "sh",
+        "prefix": "tmux_kill",
+        "body":[
+            "tmux kill-session -t ${1}:${0}"
+        ]
+    }
+}
