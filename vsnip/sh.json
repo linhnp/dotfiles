@@ -16,5 +16,12 @@
         "body":[
             "tmux kill-session -t ${1}:${0}"
         ]
+    },
+    "tmux_send_keys": {
+        "scope": "sh",
+        "prefix": "tmux_send_keys",
+        "body":[
+            "tmux send-keys -t ${1:session}:${2:window} \"${0:command}\" Enter"
+        ]
     }
 }

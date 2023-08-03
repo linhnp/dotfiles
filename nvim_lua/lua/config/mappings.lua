@@ -18,4 +18,4 @@ M.vmap('>', '>gv')
 M.vmap('<', '<gv')
 
 -- replace
-M.vmap('<C-r>', 'hy:%s/<C-r>h//gc<left><left><left>')
+M.vmap('<C-r>', 'y:%s/<C-r>0//gc<left><left><left>')

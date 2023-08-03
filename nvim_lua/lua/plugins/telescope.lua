@@ -13,6 +13,12 @@ return {
                 config = function ()
                     require('telescope').load_extension('file_browser')
                 end,
+            },
+            {
+                'nvim-telescope/telescope-project.nvim',
+                config = function ()
+                    require('telescope').load_extension('project')
+                end,
             }
         },
         keys = {
@@ -44,7 +50,7 @@ return {
             },
             pickers = {
                 find_files = {
-                    initial_mode = 'normal'
+                    initial_mode = 'insert'
                 },
                 treesitter = {
                     symbols = {'function'}

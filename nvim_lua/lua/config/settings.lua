@@ -19,7 +19,7 @@ vim.opt.expandtab = true -- expand tab to spaces
 vim.opt.shiftwidth = 4 -- indentation
 vim.opt.pastetoggle = '<F2>' -- text will not be automatically indented when pasting
 vim.opt.autoindent = true
-vim.opt.smartindent = true
+vim.opt.smartindent = false
 
 -- Sidebar
 vim.opt.ruler = true -- show the cursor position all the time

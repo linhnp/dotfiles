@@ -19,5 +19,12 @@
             "\targs = vars(parser.parse_args())"
         ],
         "description": "Main with Argument Parser"
+    },
+    "parser_add": {
+        "scope": "python",
+        "prefix": "parser_add",
+        "body":[
+            "parser.add_argument('-$1', '--$0')"
+        ]
     }
 }
